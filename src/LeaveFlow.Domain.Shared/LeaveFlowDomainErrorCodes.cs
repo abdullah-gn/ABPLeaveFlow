@@ -9,8 +9,15 @@ public static class LeaveFlowDomainErrorCodes
     public const string OnlyPendingRequestsCanBeRejected = "LeaveFlow:00004";
     public const string OnlyCancelPendingRequests = "LeaveFlow:00005";
     public const string InsufficientLeaveBalance = "LeaveFlow:00006";
+    public const string OverlappingLeaveRequest = "LeaveFlow:00007";
+    public const string NoLeaveBalanceFound = "LeaveFlow:00008";
+    public const string CannotCancelApprovedLeave = "LeaveFlow:00009";
+    public const string CannotApproveOwnRequest = "LeaveFlow:00010";
     
     // LeaveType errors
     public const string LeaveTypeAlreadyExists = "LeaveFlow:00101";
     public const string LeaveTypeNotFound = "LeaveFlow:00102";
+    
+    // LeaveBalance errors
+    public const string LeaveBalanceAlreadyExists = "LeaveFlow:00201";
 }

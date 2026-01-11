@@ -86,12 +86,22 @@ public class LeaveRequest : FullAuditedAggregateRoot<Guid>
 
     public void Cancel()
     {
-        if (Status != LeaveRequestStatus.Pending)
+        // Allow canceling both pending and approved (if leave hasn't started yet)
+        if (Status == LeaveRequestStatus.Rejected || Status == LeaveRequestStatus.Cancelled)
         {
             throw new BusinessException(LeaveFlowDomainErrorCodes.OnlyCancelPendingRequests);
+        }
+
+        // Cannot cancel if leave has already started
+        if (Status == LeaveRequestStatus.Approved && StartDate.Date <= DateTime.Today)
+        {
+            throw new BusinessException(LeaveFlowDomainErrorCodes.CannotCancelApprovedLeave);
         }
 
         Status = LeaveRequestStatus.Cancelled;
         DecisionDate = DateTime.Now;
     }
+
+    public bool WasApproved => Status == LeaveRequestStatus.Approved || 
+                               (Status == LeaveRequestStatus.Cancelled && ApproverId.HasValue);
 }
